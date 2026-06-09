@@ -7,13 +7,16 @@ function InfoTooltip({ isOpen, isSuccess, onClose }) {
   }
 
   return (
-    <div className="popup popup_opened">
-      <div className="popup__container popup__container_type_tooltip">
+    <div className="popup popup_opened" onClick={onClose}>
+      <div
+        className="popup__container_type_tooltip"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button type="button" className="popup__close" onClick={onClose} />
 
         <img
           src={isSuccess ? successIcon : failIcon}
-          alt={isSuccess ? "Success" : "Fail"}
+          alt={isSuccess ? "Éxito" : "Error"}
           className="popup__icon"
         />
 

@@ -2,6 +2,7 @@
   max-width: 358px;
   margin: 60px auto 0;
   color: #fff;
+  font-family: "Inter", Arial, sans-serif;
 }
 
 .auth__title {
@@ -34,13 +35,15 @@
 }
 
 .auth__submit {
-  margin-top: 186px;
+  margin-top: 216px;
   height: 50px;
+  width: 100%;
   border: none;
   border-radius: 2px;
   background: #ffffff;
   color: #000000;
   font-size: 18px;
+  font-family: "Inter", Arial, sans-serif;
   line-height: 22px;
   cursor: pointer;
 }

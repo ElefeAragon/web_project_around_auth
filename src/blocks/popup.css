@@ -51,6 +51,15 @@
   cursor: pointer;
 }
 
+.popup__container_type_tooltip .popup__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 35px;
+  height: 35px;
+  background-size: 35px 35px;
+}
+
 .popup__close:hover {
   opacity: 0.6;
 }
@@ -205,6 +214,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding: 60px 36px 52px;
+  box-sizing: border-box;
 }
 
 .popup__icon {

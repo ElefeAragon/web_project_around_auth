@@ -52,7 +52,6 @@ function App() {
       })
       .catch((err) => {
         console.error(err);
-
         setIsSuccess(false);
         setIsInfoTooltipOpen(true);
       });
@@ -64,22 +63,22 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
-
           setLoggedIn(true);
           setEmail(email);
-
           navigate("/");
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
+      });
   };
 
   const handleSignOut = () => {
     localStorage.removeItem("jwt");
-
     setLoggedIn(false);
     setEmail("");
-
     navigate("/signin");
   };
 
@@ -89,11 +88,7 @@ function App() {
 
   return (
     <div className="page__content">
-      <Header
-        loggedIn={loggedIn}
-        email={email}
-        onSignOut={handleSignOut}
-      />
+      <Header loggedIn={loggedIn} email={email} onSignOut={handleSignOut} />
 
       <Routes>
         <Route
@@ -101,10 +96,7 @@ function App() {
           element={<Register onRegister={handleRegister} />}
         />
 
-        <Route
-          path="/signin"
-          element={<Login onLogin={handleLogin} />}
-        />
+        <Route path="/signin" element={<Login onLogin={handleLogin} />} />
 
         <Route
           path="/"
@@ -115,10 +107,7 @@ function App() {
           }
         />
 
-        <Route
-          path="*"
-          element={<Navigate to="/signin" replace />}
-        />
+        <Route path="*" element={<Navigate to="/signin" replace />} />
       </Routes>
 
       <InfoTooltip
