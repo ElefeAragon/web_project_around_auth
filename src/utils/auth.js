@@ -1,5 +1,4 @@
-const BASE_URL =
-  "https://se-register-api.en.tripleten-services.com/v1";
+const BASE_URL = "https://se-register-api.en.tripleten-services.com/v1";
 
 export const register = ({ email, password }) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -7,15 +6,11 @@ export const register = ({ email, password }) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      email,
-      password,
-    }),
+    body: JSON.stringify({ email, password }),
   }).then((res) => {
     if (!res.ok) {
       return Promise.reject(`Error: ${res.status}`);
     }
-
     return res.json();
   });
 };
