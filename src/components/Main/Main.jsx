@@ -6,7 +6,7 @@ import EditProfile from "./components/EditProfile/EditProfile";
 import EditAvatar from "./components/EditAvatar/EditAvatar";
 import Card from "./components/Card/Card";
 
-import avatar from "../../images/avatar.jpg";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 const cards = [
   {
@@ -25,6 +25,8 @@ const cards = [
 
 export default function Main() {
   const [popup, setPopup] = useState(null);
+
+  const { currentUser } = useCurrentUser();
 
   // POPUPS
   const newCardPopup = {
@@ -60,13 +62,22 @@ export default function Main() {
           className="profile__avatar-container"
           onClick={() => handleOpenPopup(editAvatarPopup)}
         >
-          <img className="profile__image" src={avatar} alt="Avatar" />
+          <img
+            className="profile__image"
+            src={
+              currentUser?.avatar ||
+              "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/default-avatar.jpg"
+            }
+            alt="Avatar"
+          />
           <div className="profile__overlay"></div>
         </div>
 
         {/* INFO */}
         <div className="profile__info">
-          <h1 className="profile__title">Jacques Cousteau</h1>
+          <h1 className="profile__title">
+            {currentUser?.name || "Jacques Cousteau"}
+          </h1>
 
           <button
             aria-label="Editar perfil"
@@ -75,7 +86,9 @@ export default function Main() {
             onClick={() => handleOpenPopup(editProfilePopup)}
           />
 
-          <p className="profile__description">Explorador</p>
+          <p className="profile__description">
+            {currentUser?.about || "Explorador"}
+          </p>
         </div>
 
         {/* ADD CARD */}

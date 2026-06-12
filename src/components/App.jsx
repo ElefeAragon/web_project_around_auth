@@ -9,11 +9,14 @@ import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import * as auth from "../utils/auth";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
+
+  const [currentUser, setCurrentUser] = useState(null);
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -32,6 +35,8 @@ function App() {
       .then((data) => {
         setLoggedIn(true);
         setEmail(data.data.email);
+
+        setCurrentUser(data.data);
       })
       .catch((err) => {
         console.error(err);
@@ -47,6 +52,7 @@ function App() {
         setIsInfoTooltipOpen(true);
 
         setTimeout(() => {
+          setIsInfoTooltipOpen(false);
           navigate("/signin");
         }, 1500);
       })
@@ -79,6 +85,7 @@ function App() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
     setEmail("");
+    setCurrentUser(null);
     navigate("/signin");
   };
 
@@ -87,37 +94,39 @@ function App() {
   };
 
   return (
-    <div className="page__content">
-      <Header loggedIn={loggedIn} email={email} onSignOut={handleSignOut} />
+    <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <div className="page__content">
+        <Header loggedIn={loggedIn} email={email} onSignOut={handleSignOut} />
 
-      <Routes>
-        <Route
-          path="/signup"
-          element={<Register onRegister={handleRegister} />}
+        <Routes>
+          <Route
+            path="/signup"
+            element={<Register onRegister={handleRegister} />}
+          />
+
+          <Route path="/signin" element={<Login onLogin={handleLogin} />} />
+
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <Main />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<Navigate to="/signin" replace />} />
+        </Routes>
+
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          isSuccess={isSuccess}
+          onClose={closeAllPopups}
         />
 
-        <Route path="/signin" element={<Login onLogin={handleLogin} />} />
-
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute loggedIn={loggedIn}>
-              <Main />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route path="*" element={<Navigate to="/signin" replace />} />
-      </Routes>
-
-      <InfoTooltip
-        isOpen={isInfoTooltipOpen}
-        isSuccess={isSuccess}
-        onClose={closeAllPopups}
-      />
-
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
