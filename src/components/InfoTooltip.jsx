@@ -1,7 +1,7 @@
 import successIcon from "../images/Success.png";
 import failIcon from "../images/Fail.png";
 
-function InfoTooltip({ isOpen, isSuccess, onClose }) {
+function InfoTooltip({ isOpen, isSuccess, onClose, errorMessage }) {
   if (!isOpen) {
     return null;
   }
@@ -23,7 +23,7 @@ function InfoTooltip({ isOpen, isSuccess, onClose }) {
         <h2 className="popup__message">
           {isSuccess
             ? "¡Correcto! Ya estás registrado."
-            : "Uy, algo salió mal. Por favor, inténtalo de nuevo."}
+            : errorMessage || "Uy, algo salió mal. Por favor, inténtalo de nuevo."}
         </h2>
       </div>
     </div>

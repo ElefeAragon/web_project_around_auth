@@ -20,6 +20,7 @@ function App() {
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -59,6 +60,7 @@ function App() {
       .catch((err) => {
         console.error(err);
         setIsSuccess(false);
+        setErrorMessage(err.message || err);
         setIsInfoTooltipOpen(true);
       });
   };
@@ -77,6 +79,7 @@ function App() {
       .catch((err) => {
         console.error(err);
         setIsSuccess(false);
+        setErrorMessage(err.message || err);
         setIsInfoTooltipOpen(true);
       });
   };
@@ -91,6 +94,7 @@ function App() {
 
   const closeAllPopups = () => {
     setIsInfoTooltipOpen(false);
+    setErrorMessage("");
   };
 
   return (
@@ -122,6 +126,7 @@ function App() {
           isOpen={isInfoTooltipOpen}
           isSuccess={isSuccess}
           onClose={closeAllPopups}
+          errorMessage={errorMessage}
         />
 
         <Footer />
